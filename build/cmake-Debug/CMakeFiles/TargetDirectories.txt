@@ -1,9 +1,0 @@
-C:/Users/li/source/repos/DevTool/build/cmake-Debug/CMakeFiles/DevTool.dir
-C:/Users/li/source/repos/DevTool/build/cmake-Debug/CMakeFiles/edit_cache.dir
-C:/Users/li/source/repos/DevTool/build/cmake-Debug/CMakeFiles/rebuild_cache.dir
-C:/Users/li/source/repos/DevTool/build/cmake-Debug/CMakeFiles/list_install_components.dir
-C:/Users/li/source/repos/DevTool/build/cmake-Debug/CMakeFiles/install.dir
-C:/Users/li/source/repos/DevTool/build/cmake-Debug/CMakeFiles/install/local.dir
-C:/Users/li/source/repos/DevTool/build/cmake-Debug/CMakeFiles/install/strip.dir
-C:/Users/li/source/repos/DevTool/build/cmake-Debug/CMakeFiles/DevTool_autogen_timestamp_deps.dir
-C:/Users/li/source/repos/DevTool/build/cmake-Debug/CMakeFiles/DevTool_autogen.dir

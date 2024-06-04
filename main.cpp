@@ -1,8 +1,19 @@
 #include "mainwindow.h"
-
+#include "./ui_mainwindow.h"
+#include <QMainWindow>
+#include <QtNetwork/QTcpSocket>
+#include <QPlainTextEdit>
+#include <QLineEdit>
+#include <QTimer>
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+#include <libssh/libssh.h>
+#include <libssh/callbacks.h>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QMessageBox>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -21,3 +32,5 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();
 }
+
+
