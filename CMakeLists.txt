@@ -63,6 +63,7 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        TerminalWidget.cpp
         AnsiParser.cpp
         parse/ascii.hpp
         parse/stateMachine.cpp

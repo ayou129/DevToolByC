@@ -13,6 +13,7 @@
 #include <QStack>
 #include <QObject>
 #include <QString>
+// #include "TerminalWidget.h"
 
 template<typename T>
 void log(T&& message) {
@@ -89,6 +90,21 @@ private:
     QString completeHtmlTags(const QString &html);
 };
 
+
+
+class TerminalWidget : public QWidget {
+    Q_OBJECT
+public:
+    QTextEdit *outputEdit;
+    QLineEdit *inputLine;
+    explicit TerminalWidget(QWidget *parent = nullptr);
+
+signals:
+    void commandEntered(const QString &command);
+};
+
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -103,24 +119,24 @@ public:
     void appendTextWithANSI(const QString &text);
     QString parseANSI(const QString &text);
     void updateTitle(const QString &title);
-    AnsiParser *ansiParser;  // 添加AnsiParser对象
+    AnsiParser *ansiParser;
+    // void resizeEvent(QResizeEvent* event);
 
 
 private:
     Ui::MainWindow *ui;
-    QTextEdit *terminalOutput;
-    QLineEdit *inputLine;
+    TerminalWidget *terminalWidget;
     QTimer* sshReadTimer;
     ssh_session session;
     ssh_channel channel;
 
     void initializeSSH();
     void sendCommand(const QString &command);
-    void clearTerminal();
+    // void clearTerminal();
 
 
 private slots:
-    void onEnterPressed();
+    void onEnterPressed(const QString &command);
     void handleReadFromSSH();
 };
 

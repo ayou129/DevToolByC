@@ -12,88 +12,40 @@
 #include <QTextBlockFormat>
 #include <QFontDatabase>
 #include <QDir>
-
-// #include "AnsiParser.cpp"
-class TerminalWidget : public QTextEdit {
-public:
-    TerminalWidget(QWidget *parent = nullptr) : QTextEdit(parent) {
-        // 获取项目路径
-        // QString projectPath = QDir::currentPath();
-        // QString fontPath = projectPath + "/fonts/Roboto-Bold.ttf";
-        QTextOption option = document()->defaultTextOption();
-        option.setFlags(option.flags() | QTextOption::AddSpaceForLineAndParagraphSeparators);
-        option.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
-        document()->setDefaultTextOption(option);
-        // // 加载字体
-        // int fontId = QFontDatabase::addApplicationFont(fontPath);
-        // if (fontId != -1) {
-        //     QString family = QFontDatabase::applicationFontFamilies(fontId).at(0);
-
-        //     QFont font(family, 12);
-        //     setFont(font);  // 设置字体
-
-        //     // QColor textBGColor = "white";
-        //     // setTextBackgroundColor(textBGColor);
-        // } else {
-        //     qWarning() << "Failed to load font:" << fontPath;
-        // }
-
-        setReadOnly(true);
-
-        // 设置全局样式表
-        // setStyleSheet(
-        //     "QTextEdit {"
-        //     "}"
-        //     );
-
-        // 确保每个段落应用行高设置
-        // QTextDocument *doc = document();
-        // QTextCursor cursor(doc);
-        // for (QTextBlock it = doc->begin(); it != doc->end(); it = it.next()) {
-        //     QTextCursor textCursor(it);
-        //     QTextBlockFormat textBlockFormat = it.blockFormat();
-        //     textBlockFormat.setLineHeight(24, QTextBlockFormat::FixedHeight);  // 设置固定行高
-        //     textCursor.setBlockFormat(textBlockFormat);
-
-        //     // // QTextCursor cursor = textCursor();
-        //     // QTextCharFormat format;
-        //     // format.setVerticalAlignment(QTextCharFormat::AlignMiddle); // 垂直居中
-        //     // textCursor.setCharFormat(format);
-        // }
-
-        // 将光标移动到文本末尾
-        moveCursor(QTextCursor::End);
-
-        QFont currentFont = font();
-        qDebug() << "Font Family:" << currentFont.family();
-        qDebug() << "Font Size:" << currentFont.pointSize();
-    }
-};
+// #include "TerminalWidget.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , terminalOutput(new TerminalWidget(this))
-    , inputLine(new QLineEdit(this))
+    , terminalWidget(new TerminalWidget(this))
     , sshReadTimer(new QTimer(this))
 {
     ui->setupUi(this);
 
-    setWindowTitle("SSH Terminal");
+    setStyleSheet(
+        "MainWindow {"
+            "background-color: #333; "
+        "}"
+        );
+
+    // 设置窗口大小和标题
+    setWindowTitle("Custom Terminal");
+    resize(800, 600);
     setGeometry(200, 200, 800, 600);
 
     QVBoxLayout *layout = new QVBoxLayout;
-    layout->addWidget(terminalOutput);
-    layout->addWidget(inputLine);
+
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(terminalWidget);
+    layout->setSpacing(0);
 
     QWidget *centralWidget = new QWidget(this);
-    centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
+    centralWidget->setLayout(layout);
 
-    inputLine->setPlaceholderText("Enter command...");
+    connect(terminalWidget, &TerminalWidget::commandEntered, this, &MainWindow::onEnterPressed);
 
-    connect(inputLine, &QLineEdit::returnPressed, this, &MainWindow::onEnterPressed);
 
     sshReadTimer->setInterval(100); // 设置检查间隔，单位毫秒
     connect(sshReadTimer, &QTimer::timeout, this, &MainWindow::handleReadFromSSH);
@@ -104,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ansiParser, &AnsiParser::newPlainText, this, &MainWindow::appendTextWithANSI);
     connect(ansiParser, &AnsiParser::newFormattedText, this, &MainWindow::appendTextWithANSI);
     connect(ansiParser, &AnsiParser::titleChanged, this, &MainWindow::setWindowTitle);
-    connect(ansiParser, &AnsiParser::clearScreen, this, &MainWindow::clearTerminal);
+    // connect(ansiParser, &AnsiParser::clearScreen, this, &MainWindow::clearTerminal);
 }
 
 void MainWindow::initializeSSH()
@@ -199,18 +151,19 @@ void MainWindow::appendTextWithANSI(const QString &text)
     QString result = text;
     // result.replace(" ", "&nbsp;");
     qDebug() << "Appending text: " << text;
-    // terminalOutput->moveCursor(QTextCursor::End);
-    terminalOutput->insertHtml(text);
-    // terminalOutput->moveCursor(QTextCursor::End);
+    // terminalWidget->moveCursor(QTextCursor::End);
+    terminalWidget->outputEdit->insertHtml("<pre>" +text + "</pre>");
+    // terminalWidget->moveCursor(QTextCursor::End);
 }
 
-void MainWindow::onEnterPressed()
+void MainWindow::onEnterPressed(const QString &command)
 {
-    QString command = inputLine->text();
-    if (!command.isEmpty()) {
-        sendCommand(command);
-        inputLine->clear();
-    }
+    sendCommand(command);
+    // QString command = inputLine->text();
+    // if (!command.isEmpty()) {
+    //     sendCommand(command);
+    //     inputLine->clear();
+    // }
 }
 
 
@@ -268,9 +221,12 @@ void MainWindow::handleReadFromSSH()
     }
 }
 
-void MainWindow::clearTerminal() {
-    terminalOutput->clear();
-}
+// void MainWindow::resizeEvent(QResizeEvent* event) {
+//     QMainWindow::resizeEvent(event);
+//     terminalWidget->layout()->activate();
+//     qDebug() << "MainWindow resized to:" << event->size();  // 输出窗口新尺寸
+//     qDebug() << "TerminalWidget size:" << terminalWidget->size();  // 输出终端控件的尺寸
+// }
 
 MainWindow::~MainWindow()
 {
