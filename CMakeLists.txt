@@ -32,7 +32,7 @@ set(Qt6GuiTools_DIR "C:/Qt/6.7.1/mingw_64/lib/cmake/Qt6GuiTools")
 # set(Qt6Widgets_DIR "C:/Qt/6.7.1/mingw_64/lib/cmake/Qt6Widgets")
 # set(Qt6ZlibPrivate_DIR "C:/Qt/6.7.1/mingw_64/lib/cmake/Qt6ZlibPrivate")
 
-set(libssh_DIR "C:/vcpkg/installed/x64-windows/share/libssh")
+# set(libssh_DIR "C:/vcpkg/installed/x64-windows/share/libssh")
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
@@ -46,6 +46,16 @@ install(FILES
   DESTINATION ${CMAKE_BINARY_DIR}/lib
 )
 
+# fonts
+# 复制字体文件到构建目录
+file(COPY ${CMAKE_SOURCE_DIR}/fonts DESTINATION ${CMAKE_BINARY_DIR}/fonts)
+
+# 安装字体文件到安装目录
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/fonts DESTINATION ${CMAKE_INSTALL_PREFIX}/fonts)
+
+
+# install(DIRECTORY fonts DESTINATION ${CMAKE_BINARY_DIR})
+
 set(TS_FILES DevTool_yue_CN.ts)
 
 set(PROJECT_SOURCES
@@ -53,6 +63,10 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        AnsiParser.cpp
+        parse/ascii.hpp
+        parse/stateMachine.cpp
+        parse/stateMachine.hpp
         ${TS_FILES}
 )
 

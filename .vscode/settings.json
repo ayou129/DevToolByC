@@ -74,7 +74,10 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "qregularexpression": "cpp",
+        "qdebug": "cpp",
+        "qstack": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
