@@ -60,3 +60,195 @@ VIM 操作
 
 
 ~~~
+## .vscode 文件夹内容
+.vscode/settings.json
+~~~
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "*.cjson": "jsonc",
+        "*.wxss": "css",
+        "*.wxs": "javascript",
+        "*.md": "markdown",
+        "qplaintextedit": "cpp",
+        "qlineedit": "cpp",
+        "string": "cpp",
+        "array": "cpp",
+        "atomic": "cpp",
+        "bit": "cpp",
+        "*.tcc": "cpp",
+        "cctype": "cpp",
+        "charconv": "cpp",
+        "chrono": "cpp",
+        "clocale": "cpp",
+        "cmath": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "condition_variable": "cpp",
+        "cstdarg": "cpp",
+        "cstddef": "cpp",
+        "cstdint": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "cstring": "cpp",
+        "ctime": "cpp",
+        "cwchar": "cpp",
+        "cwctype": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "exception": "cpp",
+        "expected": "cpp",
+        "algorithm": "cpp",
+        "functional": "cpp",
+        "iterator": "cpp",
+        "memory": "cpp",
+        "memory_resource": "cpp",
+        "numeric": "cpp",
+        "optional": "cpp",
+        "random": "cpp",
+        "ratio": "cpp",
+        "string_view": "cpp",
+        "system_error": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "format": "cpp",
+        "future": "cpp",
+        "initializer_list": "cpp",
+        "iomanip": "cpp",
+        "iosfwd": "cpp",
+        "iostream": "cpp",
+        "istream": "cpp",
+        "limits": "cpp",
+        "mutex": "cpp",
+        "new": "cpp",
+        "numbers": "cpp",
+        "ostream": "cpp",
+        "semaphore": "cpp",
+        "span": "cpp",
+        "sstream": "cpp",
+        "stdexcept": "cpp",
+        "stdfloat": "cpp",
+        "stop_token": "cpp",
+        "streambuf": "cpp",
+        "text_encoding": "cpp",
+        "thread": "cpp",
+        "cinttypes": "cpp",
+        "typeinfo": "cpp",
+        "variant": "cpp",
+        "qregularexpression": "cpp",
+        "qdebug": "cpp",
+        "qstack": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}
+~~~
+.vscode/launch.json
+~~~
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "QT Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/cmake-Debug/DevTool.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Build",
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ]
+}
+~~~
+.vscode/tasks.json
+~~~
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Create Build Directories",
+            "type": "shell",
+            "command": "mkdir -p ${workspaceFolder}/build/cmake-Debug",
+            "group": "build"
+        },
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "cmake.exe",
+            "args": [
+                "--build", "${workspaceFolder}/build/cmake-Debug",
+                "--target", "all"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "dependsOn": ["Run DevTool"]
+        },
+        {
+            "label": "Run DevTool",
+            "type": "shell",
+            "command": "${workspaceFolder}/build/cmake-Debug/DevTool.exe",
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "problemMatcher": []
+        }
+    ]
+}
+~~~
+
+.vscode/c_cpp_properties.json
+~~~
+{
+    "configurations": [
+        {
+            "name": "Qt Configuration",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C://Qt//6.7.1//mingw_64//include//**"
+            ],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "C://Qt//6.7.1//mingw_64//include"
+                ]
+            },
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "C:/Qt/Tools/mingw1120_64/bin/gcc.exe",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}
+~~~
+
