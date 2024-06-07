@@ -29,7 +29,7 @@ TerminalWidget::TerminalWidget(QWidget *parent) : QWidget(parent) {
     outputEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     outputEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     outputEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    outputEdit->setStyleSheet("QTextEdit { background-color: #333; color: #fff; font-family: 'Monospace'; font-size: 12pt; border: none; margin: 0; padding: 0; }");
+    outputEdit->setStyleSheet(getStyle(QString("QTextEdit")));
 
     mainLayout->addWidget(outputEdit, 1);  // 让 outputEdit 在垂直方向上扩展
 
@@ -38,11 +38,11 @@ TerminalWidget::TerminalWidget(QWidget *parent) : QWidget(parent) {
     inputLayout->setContentsMargins(0, 0, 0, 0);
 
     QLabel *label = new QLabel("Command:");
-    label->setStyleSheet("QLabel { color: #ABB2BF; padding-right: 5px; }");
+    label->setStyleSheet(getStyle(QString("QLabel")));
 
     inputLine = new QLineEdit(this);
     inputLine->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    inputLine->setStyleSheet("QLineEdit { background-color: #222; color: #fff; font-family: 'Monospace'; font-size: 12pt; border: none; margin: 0; padding: 0; }");
+    inputLine->setStyleSheet(getStyle(QString("QLineEdit")));
 
     inputLayout->addWidget(label);
     inputLayout->addWidget(inputLine, 1);
@@ -56,4 +56,17 @@ TerminalWidget::TerminalWidget(QWidget *parent) : QWidget(parent) {
         inputLine->clear();
     });
 }
+
+QString TerminalWidget::getStyle(QString type) {
+    if (type == "QTextEdit") {
+        return "QTextEdit { background-color: #222; color: #fff; font-family: 'Monospace'; font-size: 12pt; border: none; margin: 0; padding: 0; }";
+    } else if (type == "QLineEdit") {
+        return "QLineEdit { background-color: #222; color: #fff; font-family: 'Monospace'; font-size: 12pt; border: none; margin: 0; padding: 0; }";
+    } else if(type == "QLabel"){
+        return "QLabel { background-color: #222; color: #fff; font-family: 'Monospace'; font-size: 12pt; border: none; margin: 0; padding: 0; }";
+    } else {
+        return "";
+    }
+}
+
 

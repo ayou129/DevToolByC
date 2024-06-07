@@ -97,7 +97,9 @@ class TerminalWidget : public QWidget {
 public:
     QTextEdit *outputEdit;
     QLineEdit *inputLine;
+    QString *title;
     explicit TerminalWidget(QWidget *parent = nullptr);
+    QString getStyle(QString type);
 
 signals:
     void commandEntered(const QString &command);
