@@ -69,4 +69,3 @@ QString TerminalWidget::getStyle(QString type) {
     }
 }
 
-
